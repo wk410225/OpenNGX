@@ -3,17 +3,17 @@ nginx作为web服务器，如果能操作数据库就更好了，基于此愿景
 沟通交流+微信: sunflowerformyself  
 代码结构：  
 一: RuoYi-Vue3-master.zip   前端代码和官方保持一致，可以直接下载官方的  
-二：RY_server.zip  这是OpenNGX的若依后端代码，解压后目录如下：  
-1：.bash_profile  请用它，记得重启生效  
-2：~/thirdlib     运行服务又不想下载依赖库，可以将其复制到~/RY/lib  
-3：~/log          日志目录  :4~/RY  
-4：~/RY/src       代码文件  
-5：~/RY/include   头文件  
-6:~/RY/etc       配置文件，包括mysql的连接配置  
-7:~/RY/bin       编译好的可执行程序  
-8:~/RY/mak       makefile脚本  
-9:~/RY/sbin      脚本 包含启停服务，查看服务运行情况等命令  
-10:~/RY/sql       其中有三个sql文件，有两个是若依官方自带的，OpenNGX*.sql是项目运行所需的，都要入库  
+二：RY_server.zip           这是OpenNGX的若依后端代码，解压后目录如下：  
+1：$HOME/.bash_profile  请用它，记得重启生效  
+2：$HOME/thirdlib     运行服务又不想下载依赖库，可以将其复制到~/RY/lib  
+3：$HOME/log          日志目录  :4~/RY  
+4：$HOME/RY/src       代码文件  
+5：$HOME/RY/include   头文件  
+6: $HOME/RY/etc       配置文件，包括mysql的连接配置  
+7: $HOME/RY/bin       编译好的可执行程序  
+8: $HOME/RY/mak       makefile脚本  
+9: $HOME/RY/sbin      脚本 包含启停服务，查看服务运行情况等命令  
+10:$HOME/RY/sql       其中有三个sql文件，有两个是若依官方自带的，OpenNGX*.sql是项目运行所需的，三个都要入库  
 
 OpenNGX 两层架构，通讯层和业务处理层  通讯层采用libevent 处理收发报文，写入消息队列，不存在阻塞，故并发高。 业务处理层负责操作数据库，处理业务逻辑等 两层模块根据并发情况都可以开启多进程。
 
