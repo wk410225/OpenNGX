@@ -1,9 +1,8 @@
 # OpenNGX
-nginx作为web服务器，如果能操作数据库就更好了，基于此愿景 ,依然采用LINUX C语言实现若依管理系统的服务端，前端保持不变，该项目我叫她OpenNGX。 <br>该框架采用libevent、 openssl、 redis 、cjson、 mysql、xlsxio、异步多进程、 消息队列通信等经典技术，高性能、低资源，适合开发轻量级、硬件资源少的后端系统，比如web管理系统。  <br>自研封装数据库操作：包括一键生成表的增删改查; JSON串和表结构体的自动互转； 自动生成sql语句等组件 使快速开发如虎添翼。<br>OpenNGX 采用两层架构：通讯层和业务处理层；通讯层采用libevent 收发报文和读写消息队列，不存在阻塞，支持万级并发；业务处理层实现业务逻辑包括操作数据库、权限检查、redis交互、JWT处理等， 两层模块根据具体业务场景、硬件资源等均可以开启多进程，并有守护进程Deamon管理，异常退出可重新拉起进程；<br>实测性能：每次页面操作耗时约20毫秒。
-沟通交流+微信: sunflowerformyself  
-代码结构：  
-一： RuoYi-Vue3-master.zip   前端代码和官方保持一致，可以直接下载官方的  
-二： RY_server.zip           这是OpenNGX的若依后端代码，解压后目录如下：  
+第一 nginx作为web服务器，如果能操作数据库就更好了，基于此愿景 ,依然采用LINUX C语言实现若依管理系统的服务端，前端保持不变，该框架我叫她OpenNGX。 <br>第二 该框架采用libevent、 openssl、 redis 、cjson、 mysql、xlsxio、异步多进程、 消息队列通信等经典技术，高性能、低资源，适合开发轻量级、硬件资源少的后端系统，比如web管理系统、IM即时通讯。  <br>第三 自研封装数据库操作：包括一键生成表的增删改查; JSON串和表结构体的自动互转； 自动生成sql语句等组件 使快速开发如虎添翼。<br>第四：OpenNGX 采用两层架构：通讯层和业务处理层；通讯层采用libevent 收发报文和读写消息队列，不存在阻塞，支持万级并发；业务处理层实现业务逻辑包括操作数据库、权限检查、redis交互、JWT处理等， 两层模块根据具体业务场景、硬件资源等均可以开启多进程，并有守护进程Deamon管理，异常退出可重新拉起进程；<br>第四 实测性能：每次页面操作耗时约20毫秒。<br>第五 沟通交流微信: sunflowerformyself
+<br代码结构：  
+一： RuoYi-Vue3-master.zip   前端代码和官方保持一致，也可从官网下载 
+二： RY_server.zip           用OpenNGX实现的若依后端代码，解压后目录如下：  
 1： $HOME/.bash_profile  请用它，记得重启生效  
 2： $HOME/thirdlib     运行服务又不想下载依赖库，可以将其复制到~/RY/lib  
 3： $HOME/log          日志目录  
@@ -21,6 +20,5 @@ redis 必须是127.0.0.1 默认端口<br>
 rundm 启动服务<br> 
 stopall 停服务<br> 
 see   查看服务<br> 
-沟通交流+微信: sunflowerformyself  
 
     
