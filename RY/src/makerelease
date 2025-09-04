@@ -1,0 +1,27 @@
+#!/bin/bash
+
+DIR_TO_MAKE=makeDir.lst
+if [ -s $DIR_TO_MAKE ]; then
+    while read LINE
+    do
+        case $LINE in
+        \#*)
+        ;;
+        *)
+            echo "++++++++ make $LINE ++++++++"
+            cd $ONLINE_HOME/$LINE
+            #make
+            make clean all
+            if [ $? -ne 0 ]
+            then
+                echo "Make Failed.\n"
+                exit 1
+            fi
+            #cp *.o $ONLINE_HOME/obj
+        ;;
+        esac
+    done < $DIR_TO_MAKE
+else
+    echo "`basename $0`" : Sorry, $DIR_TO_MAKE does not exist or is empty!
+    exit 1
+fi
