@@ -1,0 +1,7 @@
+source $ONLINE_HOME/etc/online.env.sh
+source $ONLINE_HOME/etc/online.alias.sh
+pget -k Daemon
+pget -k CommHTTP
+pget -k SwtRY
+stopipc
+echo 'ok'

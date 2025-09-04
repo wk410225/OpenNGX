@@ -1,0 +1,15 @@
+source $ONLINE_HOME/etc/online.env.sh
+source $ONLINE_HOME/etc/online.alias.sh
+cd $ONLINE_HOME/bin
+chmod +x *
+cd $ONLINE_HOME/sbin
+chmod +x *
+cd ~ 
+stopall
+cd $ONLINE_HOME/bin
+LOG_MODE=5;export LOG_MODE
+LOG_FILE_PATH=$ONLINE_HOME/log/;export LOG_FILE_PATH
+LOG_SWITCH_MODE=1;export LOG_SWITCH_MODE
+LOG_SIZE=10;export LOG_SIZE
+SRV_USAGE_KEY=0;export SRV_USAGE_KEY
+Daemon > $HOME/log/D001.log &

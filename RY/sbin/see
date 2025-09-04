@@ -1,0 +1,99 @@
+myqry "select s.srv_name, k.msq_key from tbl_srv_inf s LEFT JOIN tbl_msq_inf k ON s.msq_int_id = k.msq_int_id WHERE s.usage_key=0  and s.srv_num !=00  order by srv_id;" > see_srvinf.data
+
+cat see_srvinf.data > srvinf.data
+rm -f see_srvinf.data
+
+sed '/^[ ]/d' srvinf.data > srvinf.data.tmp
+sed '/^$/d' srvinf.data.tmp > srvinf.data
+
+sed '/^---/d' srvinf.data > srvinf.data.tmp
+sed '/^SRV_NAME/d' srvinf.data.tmp > srvinf.data
+
+
+>srvinf.data.tmp
+
+while read LINE
+do
+	echo $LINE >> srvinf.data.tmp
+done < srvinf.data;
+
+sed 's/ /:/g' srvinf.data.tmp > srvinf.data
+
+rm -f srvinf.data.tmp
+
+TNUM=0
+while read LINE
+do
+	TNUM=`expr $TNUM + 1`
+	SRVNAME[$TNUM]=`echo $LINE | cut -d: -f1`
+	MSQKEY[$TNUM]=`echo $LINE | cut -d: -f2 | sed 's/^0*0//g'`
+	if [ $TNUM = 1 ]; then
+		TSRVNAME=`echo ${SRVNAME[$TNUM]}`
+	else
+		TSRVNAME=`echo $TSRVNAME\|${SRVNAME[$TNUM]}`
+	fi
+done < srvinf.data
+rm -f srvinf.data
+ps -u $LOGNAME | egrep "$TSRVNAME" > /tmp/tmp.cs
+
+echo ""
+#banner  "$LOGNAME"
+echo "press <return> to check $LOGNAME system status\c"
+read ANW
+echo
+I=`cat /tmp/tmp.cs | wc -l`
+typeset -i I
+echo "$LOGNAME system process : ( "$I" transaction-related processes running )"
+I=0
+echo '+----- process name --+----- number ------+----- should be --------+'
+x=0
+y=0
+while [ $x -lt $TNUM ]
+do
+	x=`expr $x + 1`
+	y=`expr $y + 1`
+	P=`grep -c "${SRVNAME[$y]}" < /tmp/tmp.cs`
+	I=I+P
+	printf "|      %-11s     |         $P         |          n             |\n"  ${SRVNAME[$y]}
+done
+echo +------------------------------------------------------------------+
+P=`ps -u$LOGNAME|wc -l`
+typeset -i P
+P=P-1
+printf "|      total          |         %-3s       |          N            |\n" $I
+echo +------------------------------------------------------------------+
+P=`grep -c defunc < /tmp/tmp.cs`
+echo '|      <defunct>      |         '$P'         |          0            |'
+echo +------------------------------------------------------------------+
+rm /tmp/tmp.cs
+echo
+echo "press <return> to check $LOGNAME msgque status\c"
+read ANW
+echo "*******************************************************************"
+x=0
+while [ $x -lt $TNUM ]
+do
+	x=`expr $x + 1`
+	if [ ${SRVNAME[$x]} = "DataSyn" ]; then	
+		continue;
+	elif [ ${SRVNAME[$x]} = "hsmsvr" ]; then
+		XMSQKEY[$x]=`printf %x 23138`
+		MSQTEXT=`ipcs -q | grep $LOGNAME | grep "${XMSQKEY[$x]}"`
+		printf "%-8s %s %s %s %s %s %s\n" ${SRVNAME[$x]} $MSQTEXT
+		XMSQKEY[$x]=`printf %x 23139`
+		MSQTEXT=`ipcs -q | grep $LOGNAME | grep "${XMSQKEY[$x]}"`
+		printf "%-8s %s %s %s %s %s %s\n" ${SRVNAME[$x]} $MSQTEXT
+    else	
+		XMSQKEY[$x]=`printf %x ${MSQKEY[$x]}`
+		MSQTEXT=`ipcs -q | grep $LOGNAME | grep "${XMSQKEY[$x]}"`
+		printf "%-8s %s %s %s %s %s %s\n" ${SRVNAME[$x]} $MSQTEXT
+	fi
+done
+echo "*******************************************************************"
+echo
+echo "press <return> to check $LOGNAME network status\c"
+read ANW
+
+echo "***************************CommHTTP*********************************"
+netstat -na|grep 28083 
+netstat -na|grep 28093

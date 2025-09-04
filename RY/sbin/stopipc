@@ -1,0 +1,61 @@
+#!/bin/sh
+PRGN=`basename $0`
+TMPF="/tmp/$PRGN.$$"
+#================#
+# FUNCTION: quit #
+#================#
+quit () {
+	rm -f $TMPF
+	exit $1
+}
+#===============#
+# MAIN Entrance #
+#===============#
+# if [ $# -lt 1 ]; then
+# 	echo "Usage: $PRGN {process_name}"
+# 	quit 1
+# fi
+
+uid=`id -u`
+if [ $uid -eq 0 ]; then
+	echo "Superuser cannot use this program !"
+	quit 1
+fi
+# 删除共享内存
+ipcs -m | grep $LOGNAME > $TMPF
+cnt=`cat $TMPF | wc -l`
+while [ $cnt -gt 0 ]; do
+	line=`sed -n "${cnt}p" $TMPF`
+	rnm=`echo $line | cut -d " " -f1`
+	rid=`echo $line | cut -d " " -f2`
+	echo "killing ${rnm} ... ${rid}"
+    ipcrm -m $rid
+	cnt=`expr $cnt - 1`
+done
+rm -f $TMPF
+# 删除信号量
+ipcs -s | grep $LOGNAME > $TMPF
+cnt=`cat $TMPF | wc -l`
+while [ $cnt -gt 0 ]; do
+	line=`sed -n "${cnt}p" $TMPF`
+	rnm=`echo $line | cut -d " " -f1`
+	rid=`echo $line | cut -d " " -f2`
+	echo "killing ${rnm} ... ${rid}"
+    ipcrm -s $rid
+	cnt=`expr $cnt - 1`
+done
+rm -f $TMPF
+# 删除消息队列
+ipcs -q | grep $LOGNAME > $TMPF
+cnt=`cat $TMPF | wc -l`
+while [ $cnt -gt 0 ]; do
+	line=`sed -n "${cnt}p" $TMPF`
+	rnm=`echo $line | cut -d " " -f1`
+	rid=`echo $line | cut -d " " -f2`
+	echo "killing ${rnm} ... ${rid}"
+    ipcrm -q $rid
+	cnt=`expr $cnt - 1`
+done
+rm -f $TMPF
+
+quit 0

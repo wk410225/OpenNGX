@@ -1,0 +1,47 @@
+do_getpid()
+{
+    ps -e |sed -e '/'$1'/!d
+        s/^ *\([0-9]*\).* \(.*\)$/\1 \2/
+        /'$1'/!d
+        s/ .*$//'
+}
+
+pid=`do_getpid $2`
+
+echo $2
+
+if test "${pid}" = ""
+then 	
+	echo "no such processes"
+	exit 0
+fi
+
+   case "$1" in 
+   '-k')
+	echo $pid   
+	kill -9 $pid
+   esac
+
+   case "$1" in 
+   '-t')
+	echo $pid   
+	kill -15 $pid
+   esac
+
+   case "$1" in 
+   '-u1')
+	echo $pid   
+	kill -30 $pid
+   esac
+
+   case "$1" in 
+   '-l')   
+	echo show $pid
+	;;
+   esac
+ 
+   case "$1" in 
+   '-u')
+	echo $pid   
+	kill -16 $pid
+   esac
