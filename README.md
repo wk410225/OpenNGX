@@ -6,7 +6,7 @@ nginx作为web服务器，如果能操作数据库就更好了，基于此愿景
 二： RY_server.zip           这是OpenNGX的若依后端代码，解压后目录如下：  
 1： $HOME/.bash_profile  请用它，记得重启生效  
 2： $HOME/thirdlib     运行服务又不想下载依赖库，可以将其复制到~/RY/lib  
-3： $HOME/log          日志目录 
+3： $HOME/log          日志目录  
 4： $HOME/RY/src       代码文件  
 5： $HOME/RY/include   头文件  
 6:  $HOME/RY/etc       配置文件，包括mysql的连接配置  
