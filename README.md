@@ -9,15 +9,16 @@ nginx作为web服务器，如果能操作数据库就更好了，基于此愿景
 3： $HOME/log          日志目录  
 4： $HOME/RY/src       代码文件  
 5： $HOME/RY/include   头文件  
-6:  $HOME/RY/etc       配置文件，包括mysql的连接配置  
-7:  $HOME/RY/bin       编译好的可执行程序  
-8:  $HOME/RY/mak       makefile脚本  
-9:  $HOME/RY/sbin      脚本 包含启停服务，查看服务运行情况等命令  
-10: $HOME/RY/sql       其中有三个sql文件，有两个是若依官方自带的，OpenNGX*.sql是项目运行所需的，三个都要入库  
+6： $HOME/RY/etc       配置文件，包括mysql的连接配置  
+7： $HOME/RY/bin       编译好的可执行程序  
+8： $HOME/RY/mak       makefile脚本  
+9： $HOME/RY/sbin      脚本 包含启停服务，查看服务运行情况等命令  
+10：$HOME/RY/sql       其中有三个sql文件，有两个是若依官方自带的，OpenNGX*.sql是项目运行所需的，三个都要入库  
 11：$HOME/RY/lib       编译好的动态库
 
 OpenNGX 两层架构，通讯层和业务处理层  通讯层采用libevent 处理收发报文，写入消息队列，不存在阻塞，故并发高。 业务处理层负责操作数据库，处理业务逻辑等 两层模块根据并发情况都可以开启多进程。
-HTTP服务端口28093  
+HTTP服务端口28093 
+redis 必须是127.0.0.1 默认端口
 rundm 启动服务  
 stopall 停服务  
 see  查看服务  
